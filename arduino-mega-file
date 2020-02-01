@@ -14,8 +14,21 @@ int freq_temp = 0;
 
 
 void setup() {
-   digitalWrite (20, HIGH);   //  Encoder intrerupt pin 2
-   digitalWrite (21, HIGH);   //  Encoder intrerupt pin 3 
+
+    pinMode(0, OUTPUT) ; //   just to disable TX0
+    pinMode(1, OUTPUT) ; //   7000 relay
+    pinMode(2, OUTPUT) ; //   7008 relay
+    pinMode(3, OUTPUT) ; //   7013 relay
+    pinMode(4, OUTPUT) ; //   7018 relay
+    pinMode(5, OUTPUT) ; //   7026 relay
+    pinMode(6, OUTPUT) ; //   7028 relay
+    pinMode(7, OUTPUT) ; //   7038 relay
+    pinMode(8, INPUT) ; //   PTT input
+    digitalWrite(8, HIGH) ; //  pull up resistor
+    pinMode(9, INPUT) ;     //   bypass switch
+    digitalWrite(9, HIGH);  //pull up resistor
+    digitalWrite (20, HIGH);   //  Encoder intrerupt pin 2
+    digitalWrite (21, HIGH);   //  Encoder intrerupt pin 3 
     attachInterrupt (2, encoder, CHANGE);   // pin 20
     attachInterrupt (3, encoder, CHANGE);   // pin 21    
     
@@ -53,13 +66,13 @@ void setup() {
 
 void bandpass_filters(int freq){
   if (freq != freq_temp ){
-    if (freq == 1) {tft.fillRect(10, 40, 350, 80, TFT_BLACK); tft.drawCentreString("7.000", 240,40, 8);}
-    if (freq == 2) {tft.fillRect(10, 40, 350, 80, TFT_BLACK);tft.drawCentreString("7.008", 240,40, 8);}
-    if (freq == 3) {tft.fillRect(10, 40, 350, 80, TFT_BLACK);tft.drawCentreString("7.013", 240,40, 8);}
-    if (freq == 4) {tft.fillRect(10, 40, 350, 80, TFT_BLACK);tft.drawCentreString("7.018", 240,40, 8);}
-    if (freq == 5) {tft.fillRect(10, 40, 350, 80, TFT_BLACK);tft.drawCentreString("7.026", 240,40, 8);}
-    if (freq == 6) {tft.fillRect(10, 40, 350, 80, TFT_BLACK);tft.drawCentreString("7.028", 240,40, 8);}
-    if (freq == 7) {tft.fillRect(10, 40, 350, 80, TFT_BLACK);tft.drawCentreString("7.038", 240,40, 8);}
+    if (freq == 1) {tft.fillRect(10, 40, 350, 80, TFT_BLACK); tft.drawCentreString("7.000", 240,40, 8);digitalWrite(1, HIGH);}
+    if (freq == 2) {tft.fillRect(10, 40, 350, 80, TFT_BLACK); tft.drawCentreString("7.008", 240,40, 8);digitalWrite(2, HIGH);}
+    if (freq == 3) {tft.fillRect(10, 40, 350, 80, TFT_BLACK); tft.drawCentreString("7.013", 240,40, 8);digitalWrite(3, HIGH);}
+    if (freq == 4) {tft.fillRect(10, 40, 350, 80, TFT_BLACK); tft.drawCentreString("7.018", 240,40, 8);digitalWrite(4, HIGH);}
+    if (freq == 5) {tft.fillRect(10, 40, 350, 80, TFT_BLACK); tft.drawCentreString("7.026", 240,40, 8);digitalWrite(5, HIGH);}
+    if (freq == 6) {tft.fillRect(10, 40, 350, 80, TFT_BLACK); tft.drawCentreString("7.028", 240,40, 8);digitalWrite(6, HIGH);}
+    if (freq == 7) {tft.fillRect(10, 40, 350, 80, TFT_BLACK); tft.drawCentreString("7.038", 240,40, 8);digitalWrite(7, HIGH);}
     freq_temp = freq;
   }
 }
@@ -89,6 +102,8 @@ void encoder (){
 
 void loop(){
    delay(100);
+   if (digitalRead (8) == HIGH) {tft.fillRoundRect(220, 175, 40, 20, 4, TFT_RED);  tft.drawRoundRect(220, 175, 40, 20, 4, TFT_WHITE);}
+      else {tft.fillRoundRect(220, 175, 40, 20, 4, TFT_GREEN);  tft.drawRoundRect(220, 175, 40, 20, 4, TFT_WHITE);}
    
     
 }
